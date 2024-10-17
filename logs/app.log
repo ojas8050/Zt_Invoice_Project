@@ -1,0 +1,11 @@
+2024-10-17 18:24:31 [main] INFO  Utils.Log - Initializing WebDriver...
+2024-10-17 18:24:33 [main] INFO  Utils.Log - Navigating to URL: https://test.salesforce.com/
+2024-10-17 18:24:44 [main] INFO  Utils.Log - Checking Ojas is present in thr Employee List
+2024-10-17 18:24:47 [main] INFO  Utils.Log - User Found
+2024-10-17 18:24:48 [main] INFO  Utils.Log - Click On Edit Button Present In Employee Page
+2024-10-17 18:24:48 [main] INFO  Utils.Log - Changing the EmpID to ZT00565
+2024-10-17 18:24:49 [main] INFO  Utils.Log - Changing Emp Mail To ojas123@gmail.com
+2024-10-17 18:24:50 [main] INFO  Utils.Log - Clicking on save Button
+2024-10-17 18:24:50 [main] INFO  Utils.Log - Verifying the Employee ID from he Information Page
+2024-10-17 18:24:50 [main] INFO  Utils.Log - Verifying the Employee Email from he Information Page
+2024-10-17 18:24:50 [main] INFO  Utils.Log - Closing WebDriver...

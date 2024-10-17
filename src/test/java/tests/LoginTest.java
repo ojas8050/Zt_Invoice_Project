@@ -10,6 +10,4 @@ public class LoginTest extends BaseTest{
         LoginAction loginAction=new LoginAction(driver);
         loginAction.login(LoginConstants.Username,LoginConstants.Password);
     }
-
-
 }

@@ -16,26 +16,22 @@ public class LoginPage {
     }
 
     @FindBy(id = "username")
-    public WebElement usernameTextFiled;
-
+    private WebElement usernameTextFiled;
     public LoginPage enterusername(String username) {
-        Reporter.log("Enter Username",true);
         usernameTextFiled.sendKeys(username);
         return this;
     }
 
     @FindBy(id = "password")
-    public WebElement PasswordTextField;
+    private WebElement PasswordTextField;
     public LoginPage enterpassword(String password){
-        Reporter.log("Enter Password",true);
         PasswordTextField.sendKeys(password);
         return this;
     }
 
     @FindBy(id = "Login")
-    public WebElement LoginButton;
+    private WebElement LoginButton;
     public void ClickOnLoginButton(){
-        Reporter.log("Clcik on the Login",true);
             LoginButton.click();
     }
 
