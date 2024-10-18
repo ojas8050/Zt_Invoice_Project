@@ -1,6 +1,6 @@
 package Pages;
 
-import Enums.EmployeeConstants;
+import Constants.EmployeeConstants;
 import Utils.Log;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,14 +12,16 @@ import org.testng.Assert;
 
 import java.util.List;
 
-public class EmployeePage {
+public class EmployeePage extends BasePage {
     private static final Logger log = LoggerFactory.getLogger(EmployeePage.class);
     private WebDriver driver;
+    private CommonPage commonPage;
 
     public EmployeePage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver,this);
+        super(driver);
+        commonPage=new CommonPage(driver);
     }
+
     @FindBy(css = "a[data-refid='recordId']") private List<WebElement> AllEmployees;
     @FindBy(linkText = "Ojas") private WebElement UserOjas;
     @FindBy(xpath = "//*[@name='Edit']") private WebElement UserEdit;
@@ -86,6 +88,22 @@ public class EmployeePage {
         //System.out.println("Actual Email--->  "+EmailInformation.getText());
         Assert.assertEquals(EmailInformation.getText(), EmployeeConstants.EmployeeOjasCredEnum.Email.getValue());
 
+        return this;
+    }
+
+    public EmployeePage VerfiyEmployeeCanEditEmpIDandEmail() throws InterruptedException {
+        commonPage.ClickOnEmployees();
+        VerifyUserPresent(EmployeeConstants.EmployeeOjasCredEnum.User.getValue())
+                .ClickOnEditButton()
+                .EnterEmpID(EmployeeConstants.EmployeeOjasCredEnum.ID.getValue())
+                .EnterEmpEmail(EmployeeConstants.EmployeeOjasCredEnum.Email.getValue())
+                .ClickOnSave();
+        return this;
+    }
+
+    public EmployeePage VerifyEditedObject(){
+        VerifyEmpID()
+                .VerifyEmpEmail();
         return this;
     }
 

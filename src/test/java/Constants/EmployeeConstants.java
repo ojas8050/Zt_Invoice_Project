@@ -1,9 +1,8 @@
-package Enums;
+package Constants;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-public class EmployeeConstants {
+public interface EmployeeConstants {
 
     @Getter
     public enum EmployeeOjasCredEnum{

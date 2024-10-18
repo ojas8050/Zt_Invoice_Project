@@ -1,18 +1,14 @@
 package Pages;
 
-import Action.LoginAction;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.Reporter;
 
-public class LoginPage {
+public class LoginPage extends BasePage{
     private WebDriver driver;
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver,this);
+       super(driver);
     }
 
     @FindBy(id = "username")
@@ -33,6 +29,11 @@ public class LoginPage {
     private WebElement LoginButton;
     public void ClickOnLoginButton(){
             LoginButton.click();
+    }
+
+    public LoginPage loginToSalesForce(String username, String password) {
+        return enterusername(username)
+                .enterpassword(password);
     }
 
 }

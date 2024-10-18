@@ -1,13 +1,14 @@
 package tests;
 
-import Action.LoginAction;
-import Enums.LoginConstants;
+import Constants.LoginConstants;
+import Pages.LoginPage;
 import org.testng.annotations.Test;
 
 public class LoginTest extends BaseTest{
     @Test
     public void loginToApplication(){
-        LoginAction loginAction=new LoginAction(driver);
-        loginAction.login(LoginConstants.Username,LoginConstants.Password);
+        LoginPage loginPage=new LoginPage(driver);
+        loginPage.loginToSalesForce(LoginConstants.Username,LoginConstants.Password)
+                .ClickOnLoginButton();
     }
 }
