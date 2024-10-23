@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public abstract class BasePage {
     protected WebDriver driver;
@@ -36,6 +37,15 @@ public abstract class BasePage {
             Log.info("Element is displayed.");
         } catch (TimeoutException e) {
             Log.warn("Element not displayed within the timeout.");
+        }
+    }
+
+    protected void waitForSeconds(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            Log.warn("Interrupted while waiting: " + e.getMessage());
+            Thread.currentThread().interrupt();
         }
     }
 

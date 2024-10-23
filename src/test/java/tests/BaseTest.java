@@ -13,9 +13,19 @@ import org.testng.annotations.BeforeClass;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
     protected WebDriver driver;
+
+    protected void waitForSeconds(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            Log.warn("Interrupted while waiting: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
 
     @BeforeClass
     public void setup() {
@@ -54,4 +64,5 @@ public class BaseTest {
             Log.info("Closing WebDriver...");
             driver.quit();
     }
+
 }
