@@ -5,35 +5,21 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage{
-    private WebDriver driver;
 
     public LoginPage(WebDriver driver) {
        super(driver);
     }
 
-    @FindBy(id = "username")
-    private WebElement usernameTextFiled;
-    public LoginPage enterusername(String username) {
-        usernameTextFiled.sendKeys(username);
-        return this;
-    }
-
-    @FindBy(id = "password")
-    private WebElement PasswordTextField;
-    public LoginPage enterpassword(String password){
-        PasswordTextField.sendKeys(password);
-        return this;
-    }
-
-    @FindBy(id = "Login")
-    private WebElement LoginButton;
-    public void ClickOnLoginButton(){
-            LoginButton.click();
-    }
+    @FindBy(id = "username") public static WebElement usernameTextFiled;
+    @FindBy(id = "password") public static WebElement PasswordTextField;
+    @FindBy(id = "Login") public static WebElement LoginButton;
 
     public LoginPage loginToSalesForce(String username, String password) {
-        return enterusername(username)
-                .enterpassword(password);
+        usernameTextFiled.sendKeys(username);
+        PasswordTextField.sendKeys(password);
+        LoginButton.click();
+        return this;
     }
+
 
 }

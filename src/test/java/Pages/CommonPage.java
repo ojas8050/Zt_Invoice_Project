@@ -16,12 +16,6 @@ public class CommonPage extends BasePage {
     @FindBy(xpath = "//*[@class='slds-context-bar__label-action dndItem' and @title='Employees']")
     public WebElement EmployeesDropDown;
 
-    public void ClickOnEmployees() throws InterruptedException {
-        waitUntilElementDisplayed(EmployeesDropDown);
-        EmployeesDropDown.isDisplayed();
-        System.out.println("print -->"+ EmployeesDropDown.isDisplayed());
-        EmployeesDropDown.sendKeys(Keys.ENTER);
-        //System.out.println("print 2 -->"+ EmployeesDropDown.isDisplayed());
-    }
+    @FindBy(xpath = "//*[@class='slds-p-right_small']") public WebElement MoreDropdown;
 
 }
