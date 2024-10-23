@@ -1,6 +1,7 @@
 package tests;
 
 import Constants.LoginConstants;
+import Pages.LoginPage;
 import Utils.Log;
 import Utils.ScreenshotUtil;
 import org.openqa.selenium.WebDriver;
@@ -9,13 +10,25 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
     protected WebDriver driver;
+
+    protected void waitForSeconds(int seconds) {
+        try {
+            TimeUnit.SECONDS.sleep(seconds);
+        } catch (InterruptedException e) {
+            Log.warn("Interrupted while waiting: " + e.getMessage());
+            Thread.currentThread().interrupt();
+        }
+    }
+
 
     @BeforeClass
     public void setup() {
@@ -34,6 +47,9 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         Log.info("Navigating to URL: " + LoginConstants.Test_URL);
         driver.get(LoginConstants.Test_URL);
+
+        LoginPage loginPage=new LoginPage(driver);
+        loginPage.loginToSalesForce(LoginConstants.Username,LoginConstants.Password);
     }
 
     @AfterMethod
@@ -54,4 +70,5 @@ public class BaseTest {
             Log.info("Closing WebDriver...");
             driver.quit();
     }
+
 }

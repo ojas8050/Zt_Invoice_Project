@@ -1,5 +1,6 @@
 package Pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -22,6 +23,7 @@ public class LoginPage extends BasePage{
     private WebElement PasswordTextField;
     public LoginPage enterpassword(String password){
         PasswordTextField.sendKeys(password);
+        PasswordTextField.sendKeys(Keys.ENTER);
         return this;
     }
 
