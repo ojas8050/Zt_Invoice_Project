@@ -8,7 +8,7 @@ public interface EmployeeConstants {
 
     @Getter
     public enum EmployeeOjasCredEnum {
-        User("Suraj"),
+        User("Ojas"),
         ID(generateRandomID()),
         Email(generateRandomEmail());
 

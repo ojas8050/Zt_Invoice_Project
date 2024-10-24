@@ -24,10 +24,11 @@ public abstract class BasePage {
 
     protected void waitUntilElementVisible(WebElement element) {
         try {
+            waitForSeconds(1);
             wait.until(ExpectedConditions.visibilityOf(element));
-            Log.info("Element is displayed.");
+            Log.info("Element is Visible.");
         } catch (TimeoutException e) {
-            Log.warn("Element not displayed within the timeout.");
+            Log.warn("Element not Visible within the timeout.");
         }
     }
 
@@ -48,5 +49,15 @@ public abstract class BasePage {
             Thread.currentThread().interrupt();
         }
     }
+
+    protected void waitUntilElementClickable(WebElement element) {
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            Log.info("Element is clickable.");
+        } catch (TimeoutException e) {
+            Log.warn("Element not clickable within the timeout.");
+        }
+    }
+
 
 }
