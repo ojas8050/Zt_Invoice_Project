@@ -14,7 +14,7 @@ public class CommonPage extends BasePage {
     }
 
     @FindBy(xpath = "//*[@class='slds-context-bar__label-action dndItem' and @title='Employees']")
-    public WebElement EmployeesDropDown;
+    public static WebElement EmployeesDropDown;
 
     @FindBy(xpath = "//*[@class='slds-p-right_small']") public WebElement MoreDropdown;
 
