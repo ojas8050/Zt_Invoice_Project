@@ -66,10 +66,10 @@ public class BaseTest {
         }
     }
 
-    @AfterClass
-    public void teardown(){
-            Log.info("Closing WebDriver...");
-            driver.quit();
-    }
+//    @AfterClass
+//    public void teardown(){
+//            Log.info("Closing WebDriver...");
+//            driver.quit();
+//    }
 
 }

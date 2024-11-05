@@ -1,10 +1,8 @@
 package Pages;
 
 import Utils.Log;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -59,5 +57,18 @@ public abstract class BasePage {
         }
     }
 
+    protected void moveToElement(WebElement element) {
+        try {
+            // Scroll the element into view at the top
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+
+            // Now move to the element
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element).perform(); // Move the cursor to the specified element
+            Log.info("Moved to the element");
+        } catch (Exception e) {
+            Log.warn("Failed to move to the element: " + e.getMessage());
+        }
+    }
 
 }
