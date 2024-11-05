@@ -72,7 +72,7 @@ public class AccountPage extends BasePage{
         BillingAddress.sendKeys(Keys.DOWN);
         waitForSeconds(1);
         BillingAddress.sendKeys(Keys.ENTER);
-        Log.info(" Search successfull in Billing Address");
+        Log.info(" Search successfully in Billing Address");
         return this;
     }
 
@@ -136,8 +136,8 @@ public class AccountPage extends BasePage{
         NewButton.click();
         Type.click();
         Type.click();
-        Type.sendKeys(Keys.ENTER);
-        Type.sendKeys(Keys.ENTER);
+//        Type.sendKeys(Keys.ENTER);
+//        Type.sendKeys(Keys.ENTER);
         PressOption.click();
         EnterWebsite.sendKeys(URL);
         PhoneNumber.sendKeys(phno);
