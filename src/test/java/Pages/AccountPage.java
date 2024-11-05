@@ -11,7 +11,6 @@ import java.util.List;
 
 public class AccountPage extends BasePage{
     private WebDriver driver;
-
     public AccountPage(WebDriver driver) {
         super(driver);
     }
@@ -48,11 +47,11 @@ public class AccountPage extends BasePage{
     public static WebElement Popup;
     @FindBy(xpath = "//*[@data-refid='recordId']")
     private List<WebElement> AllAccounts;
-    @FindBy(xpath = "//*[contains(@class,'actionsContainer')]//*[@name='Edit']")
+    @FindBy(xpath = "//*[@class='windowViewMode-normal oneContent active lafPageHost']//*[@name='Edit']")
     private WebElement edit;
     @FindBy(xpath = "//*[@name='NumberOfEmployees']")
     private WebElement Employee;
-    @FindBy(xpath = "//li[@data-target-selection-name='sfdc:StandardButton.Account.Delete']//button[@name='Delete'][normalize-space()='Delete']")
+    @FindBy(xpath = "//li[@data-target-selection-name='sfdc:StandardButton.Account.Delete' and @class='visible']//button[@name='Delete'][normalize-space()='Delete']")
     private WebElement DeleteCreatedAccount;
     @FindBy(xpath = "//*[@title='Delete' and @aria-live='off']")
     private WebElement DeletePopup;
@@ -63,7 +62,9 @@ public class AccountPage extends BasePage{
     @FindBy(xpath = "//*[@class='slds-context-bar__label-action dndItem' and @title='Accounts']")
     private WebElement AccountDropdown;
     @FindBy(xpath = "//*[@class='forceActionLink' and @title='New']")
-    public static WebElement NewButton;
+    private WebElement NewButton;
+    @FindBy(xpath = "//*[@data-key='close']")
+    private WebElement ClosePopup;
 
     public AccountPage SearchBillingAddress(String Bill) {
         BillingAddress.sendKeys(Keys.PAGE_DOWN);
@@ -76,23 +77,12 @@ public class AccountPage extends BasePage{
         return this;
     }
 
-    public AccountPage SearchShippingAddress(String Shipp) {
-        ShippingAddress.sendKeys(Keys.PAGE_DOWN);
-        ShippingAddress.sendKeys(Keys.ENTER);
-        ShippingAddress.sendKeys(Shipp);
-        ShippingAddress.sendKeys(Keys.DOWN);
-        waitForSeconds(1);
-        ShippingAddress.sendKeys(Keys.ENTER);
-        Log.info(" Search successfull in shipping Address");
-        return this;
-    }
-
     public AccountPage VerfiyAccountCreationPage(String user, String URL, String phno, String des, String email, String employee, String Bill)  {
         System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());//true
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
         waitForSeconds(2);
-        NewButton.click();
+        NewButton.sendKeys(Keys.ENTER);
         AccountName.sendKeys(user);
         Type.click();
         Type.click();
@@ -113,8 +103,13 @@ public class AccountPage extends BasePage{
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
         waitForSeconds(2);
-        NewButton.click();
+        NewButton.sendKeys(Keys.ENTER);
         AccountName.sendKeys(user);
+        System.out.println("Type--->"+Type.isDisplayed());
+        waitForSeconds(2);
+//        Type.click();
+//        Type.click();
+//        Type.sendKeys(Keys.ENTER);
         Type.sendKeys(Keys.ENTER);
         PressOption.click();
         EnterWebsite.sendKeys(URL);
@@ -132,6 +127,10 @@ public class AccountPage extends BasePage{
         System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());//true
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
+        waitForSeconds(4);
+        NewButton.sendKeys(Keys.ENTER);
+        waitForSeconds(5);
+        Type.sendKeys(Keys.ENTER);
         waitForSeconds(2);
         NewButton.click();
         Type.click();
@@ -154,7 +153,7 @@ public class AccountPage extends BasePage{
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
         waitForSeconds(2);
-        NewButton.click();
+        NewButton.sendKeys(Keys.ENTER);
         waitForSeconds(2);
         Type.sendKeys(Keys.ENTER);
         PressOption.click();
@@ -173,10 +172,8 @@ public class AccountPage extends BasePage{
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
         waitForSeconds(2);
-        NewButton.click();
-        Type.click();
-        Type.click();
-        Type.sendKeys(Keys.ENTER);
+        NewButton.sendKeys(Keys.ENTER);
+        waitForSeconds(2);
         Type.sendKeys(Keys.ENTER);
         PressOption.click();
         EnterWebsite.sendKeys(URL);
@@ -195,7 +192,7 @@ public class AccountPage extends BasePage{
         for (WebElement Account : AllAccounts) {
             String currentAccName = Account.getText();
             if (currentAccName.equalsIgnoreCase(Accname)) {
-                Account.click();
+                Account.sendKeys(Keys.ENTER);
                 Log.info("User Found");
             }
         }
@@ -204,6 +201,7 @@ public class AccountPage extends BasePage{
 
     public AccountPage VerifyUserCanEdit(String Accname) {
         SearchAccountAndClick(Accname);
+        waitForSeconds(2);
         edit.click();
         Employee.clear();
         Employee.sendKeys("35");
@@ -224,6 +222,9 @@ public class AccountPage extends BasePage{
         waitForSeconds(2);
         DeleteCreatedAccount.click();
         DeletePopup.click();
+        if(ClosePopup.isDisplayed()){
+            ClosePopup.click();
+        }
         return this;
     }
     }
