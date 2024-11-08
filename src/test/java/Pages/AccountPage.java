@@ -5,12 +5,13 @@ import Utils.Log;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
+import java.security.Key;
 import java.util.List;
 
 public class AccountPage extends BasePage{
-    private WebDriver driver;
     public AccountPage(WebDriver driver) {
         super(driver);
     }
@@ -128,16 +129,24 @@ public class AccountPage extends BasePage{
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
         waitForSeconds(4);
-        NewButton.sendKeys(Keys.ENTER);
-        waitForSeconds(5);
-        Type.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
-        NewButton.click();
-        Type.click();
-        Type.click();
+        Actions actions=new Actions(driver);
+        actions.moveToElement(NewButton).click();
+       NewButton.sendKeys(Keys.ENTER);
+//        waitForSeconds(5);
+//        Type.sendKeys(Keys.ENTER);
+//        waitForSeconds(2);
+//        Type.sendKeys(Keys.DOWN);
+//        Type.sendKeys(Keys.DOWN);
+//        Type.sendKeys(Keys.ENTER);
+//        NewButton.click();
+//        Type.click();
+//        Type.click();
 //        Type.sendKeys(Keys.ENTER);
 //        Type.sendKeys(Keys.ENTER);
-        PressOption.click();
+//        Actions actions=new Actions(driver);
+//        actions.moveToElement(PressOption).click().perform();
+//        PressOption.sendKeys(Keys.ENTER);
+//        PressOption.click();
         EnterWebsite.sendKeys(URL);
         PhoneNumber.sendKeys(phno);
         Description.sendKeys(des);

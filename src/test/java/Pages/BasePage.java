@@ -62,9 +62,9 @@ public abstract class BasePage {
             // Scroll the element into view at the top
             ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
 
-            // Now move to the element
+
             Actions actions = new Actions(driver);
-            actions.moveToElement(element).perform(); // Move the cursor to the specified element
+            actions.moveToElement(element).perform();
             Log.info("Moved to the element");
         } catch (Exception e) {
             Log.warn("Failed to move to the element: " + e.getMessage());
