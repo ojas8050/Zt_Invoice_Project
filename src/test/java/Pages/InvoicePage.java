@@ -22,13 +22,13 @@ import java.util.List;
    public static WebElement InvoicePopup;
    @FindBy(xpath = "//button[normalize-space()='Confirm']")
    private WebElement ConfirmButton;
-   @FindBy(xpath = "//button[normalize-space()='Finish']")
+   @FindBy(xpath = "//*[@class='slds-button slds-button_brand' and @kx-scope='button-brand']")
    private WebElement FinishButton;
    @FindBy(xpath = "//*[@class='slds-input' and @name='Invoice_Date']")
    private WebElement DateButton;
    @FindBy(xpath = "//a[@class='slds-context-bar__label-action dndItem' and @title='Invoices']")
    private WebElement InvoiceDropDown;
-   @FindBy(xpath = "//a[@title='Z/000356']")
+   @FindBy(xpath = "//a[@title='Z/000354']")
    private WebElement AllInvoiceOption;
    @FindBy(xpath = "//button[normalize-space()='Invoice PDF (International)']")
    private WebElement InvoicePDF;
@@ -65,7 +65,6 @@ import java.util.List;
         OpportunityDropDown.sendKeys(Keys.ENTER);
         waitForSeconds(2);
         SearchOpportunityName(OpportunityName);
-
         System.out.println("GenerateInvoiceButton....>"+GenerateInvoiceButton.isDisplayed());
         GenerateInvoiceButton.click();
         ConfirmButton.click();
