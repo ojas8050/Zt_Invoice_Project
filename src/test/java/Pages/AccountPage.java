@@ -7,16 +7,23 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.DataProvider;
 
-import java.security.Key;
 import java.util.List;
 
-public class AccountPage extends BasePage{
+public class AccountPage extends BasePage {
+
+    public AccountPage() {
+        Log.info("Account Page initialized.");
+    }
+
     public AccountPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy(xpath = "//*[@name='Name' and @maxlength='255']")
+    @FindBy(xpath = "//*[@name='Name' and @class='slds-input']")
     private WebElement AccountName;
     @FindBy(xpath = "//*[@data-value='--None--' and @aria-label='Type']")
     private WebElement Type;
@@ -66,52 +73,96 @@ public class AccountPage extends BasePage{
     private WebElement NewButton;
     @FindBy(xpath = "//*[@data-key='close']")
     private WebElement ClosePopup;
+    @FindBy(xpath = "//h2[text()='New Account']")
+    private WebElement NewAccountPage;
+    @FindBy(xpath = "//*[@class='slds-modal__header']//h2[@class='slds-modal__title slds-hyphenate slds-text-heading--medium']")
+    private WebElement EditPageDropUp;
+    @FindBy(xpath = "//*[@field-label='Employees']//*[@class='test-id__field-value slds-form-element__static slds-grow word-break-ie11']")
+    public static WebElement UpdatedEmp;
+    @FindBy(xpath = "//*[@title='Details']")
+    private WebElement DetailsButton;
+    @FindBy(xpath = "//span[@class='slds-var-p-right_x-small'and text()='Accounts']")
+    public WebElement AccountsText;
+
+
 
     public AccountPage SearchBillingAddress(String Bill) {
         BillingAddress.sendKeys(Keys.PAGE_DOWN);
         BillingAddress.sendKeys(Keys.ENTER);
         BillingAddress.sendKeys(Bill);
         BillingAddress.sendKeys(Keys.DOWN);
-        waitForSeconds(1);
+        waitUntilElementDisplayed(BillingAddress);
         BillingAddress.sendKeys(Keys.ENTER);
         Log.info(" Search successfully in Billing Address");
         return this;
     }
 
-    public AccountPage VerfiyAccountCreationPage(String user, String URL, String phno, String des, String email, String employee, String Bill)  {
-        System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());//true
-        waitUntilElementDisplayed(AccountDropdown);
-        AccountDropdown.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
-        NewButton.sendKeys(Keys.ENTER);
-        AccountName.sendKeys(user);
-        Type.click();
-        Type.click();
-        Type.sendKeys(Keys.ENTER);
-        PressOption.click();
-        EnterWebsite.sendKeys(URL);
-        PhoneNumber.sendKeys(phno);
-        Description.sendKeys(des);
-        Emailtextbox.sendKeys(email);
-        Industry.click();
-        Banking.click();
-        Savebutton.click();
+    @DataProvider(name = "AllDetails")
+    public Object[][] getAllAccountDetails() {
+        return new Object[][] {
+                {"Chandini", "JohnCenaaa.com", "8899001122", "You cant see me", "YCSM@gmail.com", "34", "Bangalore"}
+        };
+    }
+    public AccountPage AccountCreationPage(String AccName,String URL,String PhoneNo,String Des,String Email,String number,String BillAdress) {
+            System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());
+            waitUntilElementDisplayed(AccountDropdown);
+            AccountDropdown.sendKeys(Keys.ENTER);
+            waitUntilElementDisplayed(AccountsText);
+            waitUntilElementClickable(NewButton);
+            NewButton.sendKeys(Keys.ENTER);
+            waitUntilElementDisplayed(NewAccountPage);
+            AccountName.sendKeys(AccName);
+            Reporter.log("Entered AccountName"+AccountName);
+            try{
+                if (Type.isDisplayed()){
+               Type.click();
+                }
+            }catch (Exception e){
+                Reporter.log("TypeDropDown Throws Exception"+ e);
+            }
+            waitUntilElementDisplayed(PressOption);
+            PressOption.click();
+            Reporter.log("Selected PressOption"+PressOption);
+            EnterWebsite.sendKeys(URL);
+            Reporter.log("Entered Website"+EnterWebsite);
+            PhoneNumber.sendKeys(PhoneNo);
+            Reporter.log("Enter PhoneNumber Successfully"+PhoneNumber);
+            Description.sendKeys(Des);
+            Reporter.log("Enter Description"+Description);
+            Emailtextbox.sendKeys(Email);
+            Reporter.log("Enter email successfully"+Emailtextbox);
+            Industry.click();
+            Reporter.log("clicked on Industry"+Industry);
+            Banking.click();
+            Reporter.log("Clicked on Banking"+Banking);
+            Employee.sendKeys(number);
+            Reporter.log("Enter Employee"+Employee);
+            SearchBillingAddress(BillAdress);
+            Savebutton.click();
+            Reporter.log("Done Creating Account");
         return this;
     }
 
-    public AccountPage VerfiyUserSaveAndNew(String user, String URL, String phno, String des, String email, String employee, String Bill)  {
-        System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());//true
+
+
+    public AccountPage VerfiyUserSaveAndNew(String AccName, String URL, String phno, String des, String email, String employee, String Bill)  {
+        System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
+        waitUntilElementDisplayed(AccountsText);
+        waitUntilElementDisplayed(NewButton);
         NewButton.sendKeys(Keys.ENTER);
-        AccountName.sendKeys(user);
-        System.out.println("Type--->"+Type.isDisplayed());
-        waitForSeconds(2);
-//        Type.click();
-//        Type.click();
-//        Type.sendKeys(Keys.ENTER);
-        Type.sendKeys(Keys.ENTER);
+        NewButton.sendKeys(Keys.ENTER);
+        waitUntilElementDisplayed(NewAccountPage);
+        AccountName.sendKeys(AccName);
+        Reporter.log("Entered AccountName"+AccountName);
+        try{
+            if (Type.isDisplayed()){
+                Type.click();
+            }
+        }catch (Exception e){
+            Reporter.log("TypeDropDown Throws Exception"+ e);
+        }
         PressOption.click();
         EnterWebsite.sendKeys(URL);
         PhoneNumber.sendKeys(phno);
@@ -121,9 +172,16 @@ public class AccountPage extends BasePage{
         Banking.click();
         SearchBillingAddress(Bill);
         SaveAndNewbutton.click();
+        Reporter.log("Done with SaveAndNew");
         return this;
     }
 
+    @DataProvider(name = "WithoutMandatoryData")
+    public Object[][] getDataForWithoutMandatoryField() {
+        return new Object[][] {
+                { "JohnCenaaa.com", "8899001122", "You cant see me", "YCSM@gmail.com", "34", "Bangalore"}
+        };
+    }
     public AccountPage VerfiyAccountCreationWOMandtoryFields(String URL, String phno, String des, String email, String employee, String Bill) {
         System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());//true
         waitUntilElementDisplayed(AccountDropdown);
@@ -131,22 +189,7 @@ public class AccountPage extends BasePage{
         waitForSeconds(4);
         Actions actions=new Actions(driver);
         actions.moveToElement(NewButton).click();
-       NewButton.sendKeys(Keys.ENTER);
-//        waitForSeconds(5);
-//        Type.sendKeys(Keys.ENTER);
-//        waitForSeconds(2);
-//        Type.sendKeys(Keys.DOWN);
-//        Type.sendKeys(Keys.DOWN);
-//        Type.sendKeys(Keys.ENTER);
-//        NewButton.click();
-//        Type.click();
-//        Type.click();
-//        Type.sendKeys(Keys.ENTER);
-//        Type.sendKeys(Keys.ENTER);
-//        Actions actions=new Actions(driver);
-//        actions.moveToElement(PressOption).click().perform();
-//        PressOption.sendKeys(Keys.ENTER);
-//        PressOption.click();
+        NewButton.sendKeys(Keys.ENTER);
         EnterWebsite.sendKeys(URL);
         PhoneNumber.sendKeys(phno);
         Description.sendKeys(des);
@@ -154,6 +197,7 @@ public class AccountPage extends BasePage{
         Industry.sendKeys(Keys.ENTER);
         Banking.click();
         Savebutton.click();
+        Reporter.log("Done WithoutMandtoryField");
         return this;
     }
 
@@ -173,6 +217,7 @@ public class AccountPage extends BasePage{
         Industry.click();
         Banking.click();
         SaveAndNewbutton.click();
+        Reporter.log("done with SaveAndNewWoMandtory");
         return this;
     }
 
@@ -207,29 +252,50 @@ public class AccountPage extends BasePage{
         }
         return this;
     }
-
-    public AccountPage VerifyUserCanEdit(String Accname) {
+    @DataProvider(name = "EditUserCreated")
+    public Object[][] getDataForEdit() {
+        return new Object[][] {
+                {"38"}
+        };
+    }
+    public AccountPage VerifyUserCanEdit(String Accname,String emps) {
         SearchAccountAndClick(Accname);
         waitForSeconds(2);
         edit.click();
+        waitUntilElementDisplayed(EditPageDropUp);
+        Assert.assertTrue(EditPageDropUp.isDisplayed(), "Edit page did not display as expected.");
         Employee.clear();
-        Employee.sendKeys("35");
+        String expectedEmployeeValue =emps;
+        Employee.sendKeys(expectedEmployeeValue);
         Savebutton.click();
+        String actualEmployeeValue = Employee.getAttribute("value");
+        Assert.assertEquals(actualEmployeeValue, expectedEmployeeValue, "Employee field was not updated successfully.");
+        Reporter.log("User can edit");
+        waitUntilElementDisplayed(DetailsButton);
+        DetailsButton.click();
         return this;
+
     }
 
-    public AccountPage VerfiyUserCancelAfterEditing(String Accname) {
+    public AccountPage VerfiyUserCancelAfterEditing(String Accname,String empss) {
         SearchAccountAndClick(Accname);
         edit.click();
+        waitUntilElementDisplayed(EditPageDropUp);
+        Assert.assertTrue(EditPageDropUp.isDisplayed(), "Edit page did not display as expected.");
         Employee.clear();
-        Employee.sendKeys("35");
+        String expectedEmployeeValue =empss;
+        Employee.sendKeys(expectedEmployeeValue);
         CancelButton.click();
+        String actualEmployeeValue = Employee.getAttribute("value");
+        Assert.assertEquals(actualEmployeeValue, expectedEmployeeValue, "Employee field was not updated successfully.");
+        Reporter.log("User can edit");
         return this;
     }
 
     public AccountPage DeleteAccountCreated() {
         waitForSeconds(2);
-        DeleteCreatedAccount.click();
+        waitUntilElementDisplayed(DeleteCreatedAccount);
+        DeleteCreatedAccount.sendKeys(Keys.ENTER);
         DeletePopup.click();
         if(ClosePopup.isDisplayed()){
             ClosePopup.click();

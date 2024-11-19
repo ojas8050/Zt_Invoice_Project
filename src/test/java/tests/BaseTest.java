@@ -1,7 +1,7 @@
 package tests;
 
 import Constants.LoginConstants;
-import Pages.LoginPage;
+import Pages.*;
 import Utils.Log;
 import Utils.ScreenshotUtil;
 import org.openqa.selenium.WebDriver;
@@ -19,6 +19,10 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
     protected WebDriver driver;
+    protected AccountPage accountPage;
+    protected InvoicePage invoicePage;
+    protected InvoiceLineItemsPage invoiceLineItemsPage;
+    protected OpportunityPage opportunityPage;
 
     protected void waitForSeconds(int seconds) {
         try {
@@ -31,6 +35,7 @@ public class BaseTest {
 
     @BeforeClass
     public void setup() {
+
         ChromeOptions options = new ChromeOptions();
         HashMap<String, Object> prefs = new HashMap<>();
         // Block notifications
@@ -46,7 +51,12 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         Log.info("Navigating to URL: " + LoginConstants.Test_URL);
         driver.get(LoginConstants.Test_URL);
-
+        Log.info("Initializing WebDriver...2344");
+        accountPage=new AccountPage(driver);
+        invoicePage=new InvoicePage(driver);
+        invoiceLineItemsPage=new InvoiceLineItemsPage(driver);
+        opportunityPage=new OpportunityPage(driver);
+        Log.info("Initializing navigateing");
         LoginPage loginPage=new LoginPage(driver);
         loginPage.loginToSalesForce(LoginConstants.Username,LoginConstants.Password);
     }
@@ -65,11 +75,10 @@ public class BaseTest {
             }
         }
     }
-//
+
 //    @AfterClass
 //    public void teardown(){
 //            Log.info("Closing WebDriver...");
 //            driver.quit();
 //    }
-
 }

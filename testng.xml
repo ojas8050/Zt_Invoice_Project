@@ -42,11 +42,6 @@
                     <include name="VerifyEmpViewInInvoiceOject"/>
                 </methods>
             </class>
-            <class name="tests.LoginTest">
-                <methods>
-                    <include name="loginToApplication"/>
-                </methods>
-            </class>
             <class name="tests.OpportunityTests">
                 <methods>
                     <include name="CreateNewOpportunityWithAllDetails"/>
