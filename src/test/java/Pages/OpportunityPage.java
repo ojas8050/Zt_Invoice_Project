@@ -274,8 +274,8 @@ public class OpportunityPage extends BasePage {
 
     @DataProvider(name="OpportunityMandatoryDetails")
     public Object[][] getDataOfMandatory(){
-         return new Object[][]{
-                 {"Swiggy","10m","July","24/05/2030","659123","4567609878","9","9","9"}
+        return new Object[][]{
+                {"Swiggy","10m","July","24/05/2030","659123","4567609878","9","9","9"}
         };
     }
 
@@ -314,13 +314,13 @@ public class OpportunityPage extends BasePage {
 
         return this;
     }
-     @DataProvider(name="GetEditOppName")
-        public Object[][] getEditRecord() {
-                return new Object[][] {
-                        {"Zomato","23","25","25","233445533"}
-                };
+    @DataProvider(name="GetEditOppName")
+    public Object[][] getEditRecord() {
+        return new Object[][] {
+                {"Zomato","23","25","25","233445533"}
+        };
 
-     }
+    }
     public OpportunityPage EditRecordByDetails(String OppName,String SetNightShiftPrice, String SetPSTShiftPrice, String SetUS_CallPrice, String SetMobileNo){
         waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
@@ -394,8 +394,8 @@ public class OpportunityPage extends BasePage {
 
     @DataProvider(name="GetOppName")
     public Object[][] getOppName() {
-            return new Object[][] {
-                    {"Zomato","2k"}
+        return new Object[][] {
+                {"Zomato","2k"}
         };
     }
     public OpportunityPage SetExpenseNightShift(String Oppname, String SetExpenseNightShift){

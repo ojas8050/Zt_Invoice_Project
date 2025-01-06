@@ -111,41 +111,41 @@ public class AccountPage extends BasePage {
         };
     }
     public AccountPage AccountCreationPage(String AccName,String URL,String PhoneNo,String Des,String Email,String number,String BillAdress) {
-           System.out.println("new button"+NewButton.isDisplayed());
-            waitUntilElementClickable(NewButton);
-            NewButton.sendKeys(Keys.ENTER);
-            waitUntilElementDisplayed(NewAccountPage);
-            AccountName.sendKeys(AccName);
-            Reporter.log("Entered AccountName"+AccountName);
-            try{
-                if (Type.isDisplayed()){
-               Type.click();
-                }
-            }catch (Exception e){
-                Reporter.log("TypeDropDown Throws Exception"+ e);
+        System.out.println("new button"+NewButton.isDisplayed());
+        waitUntilElementClickable(NewButton);
+        NewButton.sendKeys(Keys.ENTER);
+        waitUntilElementDisplayed(NewAccountPage);
+        AccountName.sendKeys(AccName);
+        Reporter.log("Entered AccountName"+AccountName);
+        try{
+            if (Type.isDisplayed()){
+                Type.click();
             }
-            waitUntilElementDisplayed(PressOption);
-            PressOption.click();
-            Reporter.log("Selected PressOption"+PressOption);
-            EnterWebsite.sendKeys(URL);
-            Reporter.log("Entered Website"+EnterWebsite);
-            PhoneNumber.sendKeys(PhoneNo);
-            Reporter.log("Enter PhoneNumber Successfully"+PhoneNumber);
-            Description.sendKeys(Des);
-            Reporter.log("Enter Description"+Description);
-            Emailtextbox.sendKeys(Email);
-            Reporter.log("Enter email successfully"+Emailtextbox);
-            Industry.click();
-            Reporter.log("clicked on Industry"+Industry);
-            Banking.click();
-            Reporter.log("Clicked on Banking"+Banking);
-            Employee.sendKeys(number);
-            Reporter.log("Enter Employee"+Employee);
-            SearchBillingAddress(BillAdress);
-            Savebutton.click();
-            waitUntilElementClickable(AccountDropdown);
-            waitForSeconds(3);
-            Reporter.log("Done Creating Account");
+        }catch (Exception e){
+            Reporter.log("TypeDropDown Throws Exception"+ e);
+        }
+        waitUntilElementDisplayed(PressOption);
+        PressOption.click();
+        Reporter.log("Selected PressOption"+PressOption);
+        EnterWebsite.sendKeys(URL);
+        Reporter.log("Entered Website"+EnterWebsite);
+        PhoneNumber.sendKeys(PhoneNo);
+        Reporter.log("Enter PhoneNumber Successfully"+PhoneNumber);
+        Description.sendKeys(Des);
+        Reporter.log("Enter Description"+Description);
+        Emailtextbox.sendKeys(Email);
+        Reporter.log("Enter email successfully"+Emailtextbox);
+        Industry.click();
+        Reporter.log("clicked on Industry"+Industry);
+        Banking.click();
+        Reporter.log("Clicked on Banking"+Banking);
+        Employee.sendKeys(number);
+        Reporter.log("Enter Employee"+Employee);
+        SearchBillingAddress(BillAdress);
+        Savebutton.click();
+        waitUntilElementClickable(AccountDropdown);
+        waitForSeconds(3);
+        Reporter.log("Done Creating Account");
         return this;
     }
 

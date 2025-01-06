@@ -35,7 +35,7 @@ public class AccountTests extends BaseTest {
     @Test(priority = 4,description = "(ZT_002)Creating Account Without Mandatory Fields and Save&new",dataProvider = "WithoutMandatoryData",dataProviderClass = AccountPage.class)
     public void SaveAndNewWOMandatory(String URL, String phno, String des, String email, String employee, String Bill) {
         Log.info("Initializing test");
-       super.accountPage.VerfiyUserSaveAndNewWOmandatory(URL,phno,des,email,employee,Bill);
+        super.accountPage.VerfiyUserSaveAndNewWOmandatory(URL,phno,des,email,employee,Bill);
         Assert.assertEquals(Popup.getText(), "We hit a snag.", "Failed to Assert the Error Message");
     }
 

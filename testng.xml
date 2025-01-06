@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="C:/Users/OjasChopade/OneDrive - ZTSS/Ojas_Repo/Zt_Invoice_Project/src/test/java/tests">
+        <classes>
+            <class name="tests.AccountTests">
+                <methods>
+                    <include name="CreateNewAccountInAccountPage"/>
+                    <include name="SaveAndNewAccountCreation"/>
+                    <include name="CreateAccountWithoutMandatoryFields"/>
+                    <include name="SaveAndNewWOMandatory"/>
+                    <include name="CancelButtonWOMandatory"/>
+                    <include name="EditCreatedAccount"/>
+                    <include name="EditCreatedAccountandCancel"/>
+                    <include name="DeleteCreatedAccount"/>
+                </methods>
+            </class>
+            <class name="tests.EmployeeTests">
+                <methods>
+                    <include name="CreateNewEmployee"/>
+                    <include name="SaveAndNewEmployeeCreation"/>
+                    <include name="CancelEmployeeCreation"/>
+                    <include name="EditEmployeeDetails"/>
+                    <include name="CancelTheEditing"/>
+                    <include name="ViewRecordsInEmployee"/>
+                    <include name="CancelDeletingEmployee"/>
+                    <include name="DeleteEmployee"/>
+                </methods>
+            </class>
+            <class name="tests.InvoiceLineItemsTest">
+                <methods>
+                    <include name="CreateInvoiceItempage"/>
+                    <include name="UserCanEditInInvoiceLineItemsTest"/>
+                    <include name="perfoemSaveandNewactiononInvoiceLineItem"/>
+                    <include name="performCancleactionOnInvoiceLine"/>
+                </methods>
+            </class>
+            <class name="tests.InvoiceTest">
+                <methods>
+                    <include name="CreateInvoicepage"/>
+                    <include name="VerifyEmpViewInInvoiceOject"/>
+                </methods>
+            </class>
+            <class name="tests.OpportunityTests">
+                <methods>
+                    <include name="CreateNewOpportunityWithAllDetails"/>
+                    <include name="CreateNewOpportunityWithMandatoryDetails"/>
+                    <include name="EditOpportunityWithDetails"/>
+                    <include name="EditOpportunityWithMandatoryDetails"/>
+                    <include name="EmployeePresentInOpportunity"/>
+                    <include name="SetExpenseForNightShiftFromOpportunity"/>
+                    <include name="SetExpenseForPSTShiftFromOpportunity"/>
+                    <include name="SetExpenseForUSCallFromOpportunity"/>
+                    <include name="AddEmployeesToTheOpportunity"/>
+                    <include name="ViewPresentCycleExpense"/>
+                    <include name="ViewBudgetRemaining"/>
+                    <include name="Salaryforworkingdaysiscalculatedproperly"/>
+                    <include name="GenratingInvoice"/>
+                    <include name="GenrateMultiplrInvoice"/>
+                    <include name="EditTaxationFieldTest"/>
+                    <include name="EditWithinStateoption"/>
+                    <include name="EditDomesticoption"/>
+                </methods>
+            </class>
+            <class name="tests.ProjectHistoryTest">
+                <methods>
+                    <include name="UpdateInvoice"/>
+                    <include name="CancletheEdit"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
