@@ -7,10 +7,14 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 
 import java.util.List;
 
 public class OpportunityPage extends BasePage {
+    public OpportunityPage(){
+        Log.info("Opportunitypage Start");
+    }
 
     public OpportunityPage(WebDriver driver){
         super(driver);
@@ -26,7 +30,7 @@ public class OpportunityPage extends BasePage {
     private WebElement OpportunityName;
     @FindBy(xpath = "//*[@placeholder='Search Accounts...']")
     private WebElement AccountNameTextField;
-    @FindBy(xpath = "//*[@data-value='--None--' and @aria-label='Taxation']")
+    @FindBy(xpath = "//button[@data-value='--None--' and @aria-label='Taxation']")
     private WebElement TaxationDropDown;
     @FindBy(xpath = "//*[@title='International' and @class='slds-truncate']")
     private WebElement SelectInternational;
@@ -114,17 +118,17 @@ public class OpportunityPage extends BasePage {
     private WebElement AddEmployee;
     @FindBy(xpath = "//label[@id='check-button-label-1-19']//span[@class='slds-checkbox_faux']")
     private WebElement EmployeeBanu;
-    @FindBy(xpath = "//*[@class='slds-media__body']//*[text()='Add Employees']")
-    private WebElement AddEmployeeText;
+    //    @FindBy(xpath = "//*[@class='slds-media__body']//*[text()='Add Employees']")
+//    private WebElement AddEmployeeText;
     @FindBy(xpath = "//*[@data-aura-class='forceInlineEditGrid']")
     private WebElement List;
     @FindBy(xpath = "//*[@class='slds-button slds-button_brand']")
     private WebElement FinishButton;
     @FindBy(xpath = "(//*[@class='slds-button slds-button_icon-border slds-button_icon-x-small']//*[@class='slds-button__icon'])[7]")
-    private WebElement EmployeeEditDeopDown;
+    private WebElement EmployeeEditDropDown;
     @FindBy(xpath = "//div[@class='forceActionLink' and @title='Edit']")
     private WebElement DropDownEditButton;
-    @FindBy(xpath = "//*[@name='Night_Shift__c']")
+    @FindBy(xpath = "//*[@name='Night_Shift_Expense__c']")
     private WebElement NightShiftEmployee;
     @FindBy(xpath = "//*[@class='view-all-label']")
     private List<WebElement> viewAllEmployeeList;
@@ -154,7 +158,12 @@ public class OpportunityPage extends BasePage {
     private WebElement TotalAmount;
     @FindBy(xpath = "//lightning-formatted-text[normalize-space()='$7,000,000.00']")
     private WebElement BudgetReamining;
-
+    @FindBy(xpath = "//span[@class='slds-var-p-right_x-small' and text()='Opportunities']")
+    private WebElement OpportunityText;
+    @FindBy(xpath = "//records-entity-label[@slot='entityLabel' and text()='Opportunity']")
+    private WebElement OpportunityTextInsideOpportunity;
+    @FindBy(xpath = "//*[text()='Add Employees' and @class]")
+    private WebElement AddEmployeeText;
 
     //Assertions
     @FindBy(xpath = "//*[@data-field-id='RecordNight_Shift_Expense_cField']//*[contains(@data-target-selection-name,'Night_Shift_Expense__c')]//*[@data-output-element-id='output-field' and @lwc-f6gbo863ml-host]")
@@ -201,15 +210,22 @@ public class OpportunityPage extends BasePage {
         }
         return this;
     }
+    @DataProvider(name = "OpportunityPageDetails")
+    public Object[][] getAllAccountDetails() {
+        return new Object[][] {
+                {"Zomato", "10m", "June","24/05/2030","Zomato is Best then the Swiggy","659123","4567609878","Next Step","9","9","9","1.5m","1.5m","ZuciTech Software and Solutions","GST1234567","ABCDE1234F","ABCD@gmail.com","Potential Building,1st Main Road","JP nagar,3rd Phase,Bangalore","909987654","ZUCITECH SOFTWARE SOLUTIONS PRIVATE LIMITED","AXIS Bank","AXISINBB052","920020044652714","AXIS Bank Ltd, Jayanagar 4th T block Bangalore - 560041","AD2905190012149"}
+        };
+    }
 
-    public OpportunityPage CreateRecordByAllDetails(String OppName,String Amount,String MonthName){
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage CreateRecordByAllDetails(String OppName,String Amount,String MonthName,String CloseDate,String DescriptionText,String PONumberText,
+                                                    String HSNTextfield, String NextStepText, String NightShiftExpense, String PSTTimeShift, String  UScallTextField, String PresentCycleExpense, String BudgetConsumed, String  CompanyName,
+                                                    String GSTTextfield, String PANNoText, String  EmailText, String AddressLineone, String  AddressLineTwo, String PhoneNoText, String AccountHolderName, String BankNameText, String SwiftCodeText, String AccountNumberText, String BankAddressText, String  GSTLUTARNText){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
+        waitUntilElementDisplayed(OpportunityText);
         NewButton.click();
         OpportunityName.sendKeys(OppName);
         AccountNameTextField.sendKeys(Keys.ENTER);
-        waitForSeconds(1);
         AccountNameTextField.sendKeys(Keys.DOWN);
         AccountNameTextField.sendKeys(Keys.ENTER);
         TaxationDropDown.click();
@@ -220,48 +236,56 @@ public class OpportunityPage extends BasePage {
         SearchMonthAndClick(MonthName);
         YearDropDown.click();
         Select2026Year.click();
-        CloseDateCalendar.sendKeys("24/05/2030");
+        CloseDateCalendar.sendKeys(CloseDate);
         StageDropDown.sendKeys(Keys.ENTER);
         SelectClosedWon.click();
         StatusDropDown.click();
         SelectInProgressOption.click();
         moveToElement(DescriptionTextField);
-        DescriptionTextField.sendKeys("Zomato is Best then the Swiggy");
-        PONumberTextField.sendKeys("659123");
-        HSN_SAC_TextField.sendKeys("4567609878");
-        NextStepTextField.sendKeys("Next Step");
-        NightShiftExpenseTextField.sendKeys("9");
-        PSTTimeShiftTextField.sendKeys("9");
-        US_Call_TextField.sendKeys("9");
+        DescriptionTextField.sendKeys(DescriptionText);
+        PONumberTextField.sendKeys(PONumberText);
+        HSN_SAC_TextField.sendKeys(HSNTextfield);
+        NextStepTextField.sendKeys(NextStepText);
+        NightShiftExpenseTextField.sendKeys(NightShiftExpense);
+        PSTTimeShiftTextField.sendKeys(PSTTimeShift);
+        US_Call_TextField.sendKeys(UScallTextField);
         TypeOfBusinessDropDown.sendKeys(Keys.ENTER);
         SelectNewBusiness.click();
-        PresentCycleExpenseTextField.sendKeys("1.5m");
-        BudgetConsumed_PrevTextField.sendKeys("1.5m");
-        CompanyNameTextField.sendKeys("ZuciTech Software and Solutions");
-        GST_NumberTextField.sendKeys("GST1234567");
-        PAN_NoTextField.sendKeys("ABCDE1234F");
-        EmailTextField.sendKeys("ABCD@gmail.com");
-        AddressLineOneTextField.sendKeys("Potential Building,1st Main Road");
-        AddressLineTwoTextField.sendKeys("JP nagar,3rd Phase,Bangalore");
-        PhoneNoTextField.sendKeys("909987654");
-        AccountHolderNameTextField.sendKeys("ZUCITECH SOFTWARE SOLUTIONS PRIVATE LIMITED");
-        BankNameTextField.sendKeys("AXIS Bank");
-        SwiftCodeTextField.sendKeys("AXISINBB052");
-        AccountNumberTextField.sendKeys("920020044652714");
-        BankAddressTextField.sendKeys("AXIS Bank Ltd, Jayanagar 4th T block Bangalore - 560041");
-        GST_LUT_ARN_TextField.sendKeys("AD2905190012149");
+        PresentCycleExpenseTextField.sendKeys(PresentCycleExpense);
+        BudgetConsumed_PrevTextField.sendKeys(BudgetConsumed);
+        CompanyNameTextField.sendKeys(CompanyName);
+        GST_NumberTextField.sendKeys(GSTTextfield);
+        PAN_NoTextField.sendKeys(PANNoText);
+        EmailTextField.sendKeys(EmailText);
+        AddressLineOneTextField.sendKeys(AddressLineone);
+        AddressLineTwoTextField.sendKeys(AddressLineTwo);
+        PhoneNoTextField.sendKeys(PhoneNoText);
+        AccountHolderNameTextField.sendKeys(AccountHolderName);
+        BankNameTextField.sendKeys(BankNameText);
+        SwiftCodeTextField.sendKeys(SwiftCodeText);
+        AccountNumberTextField.sendKeys(AccountNumberText);
+        BankAddressTextField.sendKeys(BankAddressText);
+        GST_LUT_ARN_TextField.sendKeys(GSTLUTARNText);
         LeadSourceDropDown.sendKeys(Keys.ENTER);
         SelectPartner.click();
         SaveButton.click();
-
         return this;
     }
 
-    public OpportunityPage CreateRecordByMandatoryDetails(String OppName,String Amount,String MonthName){
-        waitUntilElementVisible(OpportunityDropDown);
+    @DataProvider(name="OpportunityMandatoryDetails")
+    public Object[][] getDataOfMandatory(){
+        return new Object[][]{
+                {"Swiggy","10m","July","24/05/2030","659123","4567609878","9","9","9"}
+        };
+    }
+
+    public OpportunityPage CreateRecordByMandatoryDetails(String OppName,String Amount,String MonthName, String CloseDate,String PONumberText,String HSNTextField, String NightShiftExpense,String PSTTimeShift, String USCallText ){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
-        NewButton.click();
+        waitUntilElementDisplayed(OpportunityText);
+        waitUntilElementClickable(NewButton);
+        NewButton.sendKeys(Keys.ENTER);
+        NewButton.sendKeys(Keys.ENTER);
         OpportunityName.sendKeys(OppName);
         AccountNameTextField.sendKeys(Keys.ENTER);
         waitForSeconds(1);
@@ -275,27 +299,34 @@ public class OpportunityPage extends BasePage {
         SearchMonthAndClick(MonthName);
         YearDropDown.click();
         Select2026Year.click();
-        CloseDateCalendar.sendKeys("24/05/2030");
+        CloseDateCalendar.sendKeys(CloseDate);
         StageDropDown.sendKeys(Keys.ENTER);
         SelectClosedWon.click();
         StatusDropDown.click();
         SelectInProgressOption.click();
         moveToElement(DescriptionTextField);
-        PONumberTextField.sendKeys("659123");
-        HSN_SAC_TextField.sendKeys("4567609878");
-        NightShiftExpenseTextField.sendKeys("9");
-        PSTTimeShiftTextField.sendKeys("9");
-        US_Call_TextField.sendKeys("9");
+        PONumberTextField.sendKeys(PONumberText);
+        HSN_SAC_TextField.sendKeys(HSNTextField);
+        NightShiftExpenseTextField.sendKeys(NightShiftExpense);
+        PSTTimeShiftTextField.sendKeys(PSTTimeShift);
+        US_Call_TextField.sendKeys(USCallText);
         SaveButton.click();
 
         return this;
     }
+    @DataProvider(name="GetEditOppName")
+    public Object[][] getEditRecord() {
+        return new Object[][] {
+                {"Zomato","23","25","25","233445533"}
+        };
 
-    public OpportunityPage EditRecordByDetails(String SetNightShiftPrice, String SetPSTShiftPrice, String SetUS_CallPrice, String SetMobileNo){
-        waitUntilElementVisible(OpportunityDropDown);
+    }
+    public OpportunityPage EditRecordByDetails(String OppName,String SetNightShiftPrice, String SetPSTShiftPrice, String SetUS_CallPrice, String SetMobileNo){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        waitUntilElementDisplayed(OpportunityText);
+        VerifyOpportunityPresent(OppName);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         OpportunityEdit.click();
         moveToElement(NightShiftExpenseTextField);
         NightShiftExpenseTextField.clear();
@@ -309,16 +340,21 @@ public class OpportunityPage extends BasePage {
         PhoneNoTextField.sendKeys(SetMobileNo);
         SaveButton.click();
         waitForSeconds(2);
-
         return this;
     }
 
-    public OpportunityPage EditRecordByMandatoryDetails(String OppName,String Amount,String NightShift,String PST_Shift,String US_Call,String PO_Num,String HSN_SAC){
-        waitUntilElementVisible(OpportunityDropDown);
+    @DataProvider(name="GetEditRecordByMdetails")
+    public Object[][] getEditRecordOfMandatoryDetails(){
+        return new Object[][]{
+                {"Zomato","10","24/05/2030","12","25","31","890989","56745612"}
+        };
+    }
+    public OpportunityPage EditRecordByMandatoryDetails(String OppName,String Amount,String CloseDate,String NightShift,String PST_Shift,String US_Call,String PO_Num,String HSN_SAC){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        VerifyOpportunityPresent(OppName);
+        VerifyOpportunityPresent(OppName);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         OpportunityEdit.click();
         OpportunityName.clear();
         OpportunityName.sendKeys(OppName);
@@ -326,7 +362,7 @@ public class OpportunityPage extends BasePage {
         AmountField.sendKeys(Amount);
         moveToElement(CloseDateCalendar);
         CloseDateCalendar.clear();
-        CloseDateCalendar.sendKeys("24/05/2030");
+        CloseDateCalendar.sendKeys(CloseDate);
         moveToElement(DescriptionTextField);
         PONumberTextField.clear();
         PONumberTextField.sendKeys(PO_Num);
@@ -339,27 +375,34 @@ public class OpportunityPage extends BasePage {
         US_Call_TextField.clear();
         US_Call_TextField.sendKeys(US_Call);
         SaveButton.click();
-        waitForSeconds(3);
+        waitForSeconds(2);
         return this;
     }
 
     public OpportunityPage EmployeesPresentToOpp(){
-        waitUntilElementVisible(OpportunityDropDown);
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         EmployeeList.click();
         AddEmployee.click();
-        waitForSeconds(5);
+        driver.switchTo().frame(0);
+        waitUntilElementDisplayed(AddEmployeeText);
 
         return this;
     }
 
-    public OpportunityPage SetExpenseNightShift(String SetExpenseNightShift){
-        waitUntilElementVisible(OpportunityDropDown);
+    @DataProvider(name="GetOppName")
+    public Object[][] getOppName() {
+        return new Object[][] {
+                {"Zomato","2k"}
+        };
+    }
+    public OpportunityPage SetExpenseNightShift(String Oppname, String SetExpenseNightShift){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        VerifyOpportunityPresent(Oppname);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         OpportunityEdit.click();
         moveToElement(NightShiftExpenseTextField);
         NightShiftExpenseTextField.clear();
@@ -367,12 +410,11 @@ public class OpportunityPage extends BasePage {
         SaveButton.click();
         return this;
     }
-
-    public OpportunityPage SetExpensePSTShift(String SetExpensePST){
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage SetExpensePSTShift(String Oppname,String SetExpensePST){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        VerifyOpportunityPresent(Oppname);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         OpportunityEdit.click();
         moveToElement(NightShiftExpenseTextField);
         PSTTimeShiftTextField.clear();
@@ -381,11 +423,11 @@ public class OpportunityPage extends BasePage {
         return this;
     }
 
-    public OpportunityPage SetExpenseUSCall(String SetExpenseUSCall){
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage SetExpenseUSCall(String Oppname,String SetExpenseUSCall){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        VerifyOpportunityPresent(Oppname);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         OpportunityEdit.click();
         moveToElement(NightShiftExpenseTextField);
         US_Call_TextField.clear();
@@ -394,38 +436,44 @@ public class OpportunityPage extends BasePage {
         return this;
     }
 
-    public OpportunityPage AddEmpToOpp(){
-        waitUntilElementVisible(OpportunityDropDown);
+    @DataProvider(name="AllOppDetails")
+    public Object[][] getDetailsOfAllOpportuity(){
+        return  new Object[][]{
+                {"Zomato"}
+        };
+    }
+
+    public OpportunityPage AddEmpToOpp(String Oppname){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        VerifyOpportunityPresent(Oppname);
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
         EmployeeList.click();
         AddEmployee.click();
-        waitForSeconds(5);
         driver.switchTo().frame(0);
+        waitUntilElementDisplayed(AddEmployeeText);
         EmployeeBanu.click();
         FinishButton.click();
-        waitForSeconds(3);
-        driver.navigate().refresh();
-        waitForSeconds(2);
+        driver.switchTo().parentFrame();
+        waitUntilElementDisplayed(EmployeeList);
 
         return this;
     }
 
-    public OpportunityPage VerifyThePresentCycleExpenseIsPresent(){
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage VerifyThePresentCycleExpenseIsPresent(String Oppname){
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        VerifyOpportunityPresent("Zomato");
+        VerifyOpportunityPresent(Oppname);
         Assert.assertTrue(PresentCycleExpenseFromDetails.isDisplayed(),"Present Cycle Expense is Not Present");
         return this;
     }
 
-    public OpportunityPage ViewBudgetRemaining(){
+    public OpportunityPage ViewBudgetRemaining(String Oppname){
         OpportunityDropDown.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
-        VerifyOpportunityPresent("Zomato");
-        VerifyOpportunityPresent("Zomato");
-        waitForSeconds(3);
+        waitUntilElementDisplayed(OpportunityText);
+        VerifyOpportunityPresent(Oppname);
+        VerifyOpportunityPresent(Oppname);
+        waitUntilElementDisplayed(NightShiftExpenseFromDetails);
         moveToElement(NightShiftExpenseFromDetails);
         Assert.assertTrue(PresentCycleExpenseFromDetails.isDisplayed());
         Assert.assertTrue(BudgetConsumedFromDetails.isDisplayed());
@@ -436,84 +484,76 @@ public class OpportunityPage extends BasePage {
 
     }
 
-    public OpportunityPage VerifythatSalaryforworkingdaysiscalculatedproperly() {
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage VerifyThatSalaryForWorkingDaysIsCalculatedProperly() {
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Test Zuci FInals");
-        //VerifyOpportunityPresent("Test Zuci FInals");
-        waitForSeconds(2);
-
         Actions actions = new Actions(driver);
 
         // Check if there are multiple matching elements in the list
         WebElement viewAllEmployee;
-        if (viewAllEmployeeList.size() == 2) {
+        if (viewAllEmployeeList.size() >= 2) {
             // Use the second element if there are two
             viewAllEmployee = viewAllEmployeeList.get(1);
         } else {
             // Use the first element if there's only one
             viewAllEmployee = viewAllEmployeeList.get(0);
         }
-
-        actions.moveToElement(viewAllEmployee).click().perform();
-        System.out.println("Employee Edit dropdown is displayed---->" + EmployeeEditDeopDown.isDisplayed());
-        waitForSeconds(3);
-        actions.moveToElement(EmployeeEditDeopDown).click().perform();
-        waitForSeconds(2);
-        System.out.println("Edit Button---->" + DropDownEditButton.isDisplayed());
-        actions.moveToElement(DropDownEditButton).click().perform();
+        actions.moveToElement(viewAllEmployee).click();
+        waitUntilElementDisplayed(EmployeeEditDropDown);
+        actions.moveToElement(EmployeeEditDropDown).click();
+        waitUntilElementDisplayed(DropDownEditButton);
+        actions.moveToElement(DropDownEditButton).click();
         NightShiftEmployee.clear();
         NightShiftEmployee.sendKeys("22");
         SaveButton.click();
-
+        waitUntilElementDisplayed(AddEmployee);
         return this;
     }
 
 
-    public OpportunityPage TOgenerateInvoice() {
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage ToGenerateInvoice() {
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Salesforce");
-        waitForSeconds(3);
-        Actions actions = new Actions(driver);
-        WebElement AllGenerateinvoiceLink;
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
+        WebElement AllGenerateInvoiceLink;
         System.out.println(GenrateInvoiceButton.size());
         if (GenrateInvoiceButton.size() >= 2) {
-            // Use the second element if there are two
-            AllGenerateinvoiceLink = GenrateInvoiceButton.get(2);
+            // Use the third element if there are more then two
+            AllGenerateInvoiceLink = GenrateInvoiceButton.get(2);
         } else {
             // Use the first element if there's only one
-            AllGenerateinvoiceLink = GenrateInvoiceButton.get(0);
+            AllGenerateInvoiceLink = GenrateInvoiceButton.get(0);
         }
-        System.out.println(AllGenerateinvoiceLink.isDisplayed());
-        AllGenerateinvoiceLink.sendKeys(Keys.ENTER);
+        System.out.println(AllGenerateInvoiceLink.isDisplayed());
+        AllGenerateInvoiceLink.sendKeys(Keys.ENTER);
         ConfirmButton.click();
-        ConfirmButton.click();
+        ConfirmButton.sendKeys(Keys.ENTER);
         return this;
     }
 
-    public OpportunityPage TOgeneratemultipleInvoice() {
-        waitUntilElementVisible(OpportunityDropDown);
+    public OpportunityPage ToGenerateMultipleInvoice() {
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Test Zuci FInals");
-        waitForSeconds(3);
-        //System.out.println("Generate Invoice Button is Displayed--->"+GenrateInvoiceButton.isDisplayed());
+        waitUntilElementDisplayed(OpportunityTextInsideOpportunity);
 
-        WebElement AllGenerateinvoiceLink;
+        WebElement AllGenerateInvoiceLink;
         if (GenrateInvoiceButton.size() >= 2) {
-            // Use the second element if there are two
-            AllGenerateinvoiceLink = GenrateInvoiceButton.get(1);
+            // Use the second element if there are more then two
+            AllGenerateInvoiceLink = GenrateInvoiceButton.get(1);
         } else {
             // Use the first element if there's only one
-            AllGenerateinvoiceLink = GenrateInvoiceButton.get(0);
+            AllGenerateInvoiceLink = GenrateInvoiceButton.get(0);
         }
 
-        AllGenerateinvoiceLink.click();
+        AllGenerateInvoiceLink.click();
         DateCheckBox.click();
-        waitForSeconds(2);
+        waitUntilElementClickable(ConfirmButton);
         ConfirmButton.click();
         MonthSelectBOX.sendKeys(Keys.ENTER);
-        waitForSeconds(2);
+        waitUntilElementClickable(MonthSelecting);
         MonthSelecting.click();
         ConfirmButton.click();
         ConfirmButton.click();
@@ -522,38 +562,34 @@ public class OpportunityPage extends BasePage {
     }
 
     public OpportunityPage EditTaxationField() {
-        waitUntilElementVisible(OpportunityDropDown);
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        waitUntilElementDisplayed(OpportunityEdit);
         OpportunityEdit.click();
         TaxationEditInternational.sendKeys("Domestic");
-        Domesticedit.click();
         return this;
     }
 
     public OpportunityPage EditWithinStateField() {
-        waitUntilElementVisible(OpportunityDropDown);
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        waitUntilElementDisplayed(OpportunityEdit);
         OpportunityEdit.click();
         TaxationEditInternational.sendKeys("WithinState");
-        WithinState.click();
         return this;
     }
 
     public OpportunityPage EditDomesticField() {
-        waitUntilElementVisible(OpportunityDropDown);
+        waitUntilElementDisplayed(OpportunityDropDown);
         OpportunityDropDown.sendKeys(Keys.ENTER);
         VerifyOpportunityPresent("Zomato");
-        waitForSeconds(2);
+        waitUntilElementDisplayed(OpportunityEdit);
         OpportunityEdit.click();
         TaxationEditInternational.sendKeys("Domestic");
-        Domestic.click();
         return this;
     }
-
-
 }
+
 

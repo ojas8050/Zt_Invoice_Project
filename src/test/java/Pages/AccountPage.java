@@ -2,12 +2,16 @@ package Pages;
 
 
 import Utils.Log;
+import com.beust.ah.A;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+import org.testng.IRetryAnalyzer;
+import org.testng.ITestResult;
 import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
 
@@ -59,8 +63,8 @@ public class AccountPage extends BasePage {
     private WebElement edit;
     @FindBy(xpath = "//*[@name='NumberOfEmployees']")
     private WebElement Employee;
-    @FindBy(xpath = "//li[@data-target-selection-name='sfdc:StandardButton.Account.Delete' and @class='visible']//button[@name='Delete'][normalize-space()='Delete']")
-    private WebElement DeleteCreatedAccount;
+    @FindBy(xpath = "//*[text()='Delete']")
+    private List<WebElement> DeleteCreatedAccount;
     @FindBy(xpath = "//*[@title='Delete' and @aria-live='off']")
     private WebElement DeletePopup;
     @FindBy(xpath = "//*[@name='CancelEdit']")
@@ -80,9 +84,12 @@ public class AccountPage extends BasePage {
     @FindBy(xpath = "//*[@field-label='Employees']//*[@class='test-id__field-value slds-form-element__static slds-grow word-break-ie11']")
     public static WebElement UpdatedEmp;
     @FindBy(xpath = "//*[@title='Details']")
-    private WebElement DetailsButton;
+    private List<WebElement> DetailsButtonList;
     @FindBy(xpath = "//span[@class='slds-var-p-right_x-small'and text()='Accounts']")
     public WebElement AccountsText;
+    @FindBy(xpath = "//a//div[@title='New']")
+    private WebElement SaveNewButton;
+
 
 
 
@@ -104,56 +111,58 @@ public class AccountPage extends BasePage {
         };
     }
     public AccountPage AccountCreationPage(String AccName,String URL,String PhoneNo,String Des,String Email,String number,String BillAdress) {
-            System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());
-            waitUntilElementDisplayed(AccountDropdown);
-            AccountDropdown.sendKeys(Keys.ENTER);
-            waitUntilElementDisplayed(AccountsText);
-            waitUntilElementClickable(NewButton);
-            NewButton.sendKeys(Keys.ENTER);
-            waitUntilElementDisplayed(NewAccountPage);
-            AccountName.sendKeys(AccName);
-            Reporter.log("Entered AccountName"+AccountName);
-            try{
-                if (Type.isDisplayed()){
-               Type.click();
-                }
-            }catch (Exception e){
-                Reporter.log("TypeDropDown Throws Exception"+ e);
+        System.out.println("new button"+NewButton.isDisplayed());
+        waitUntilElementClickable(NewButton);
+        NewButton.sendKeys(Keys.ENTER);
+        waitUntilElementDisplayed(NewAccountPage);
+        AccountName.sendKeys(AccName);
+        Reporter.log("Entered AccountName"+AccountName);
+        try{
+            if (Type.isDisplayed()){
+                Type.click();
             }
-            waitUntilElementDisplayed(PressOption);
-            PressOption.click();
-            Reporter.log("Selected PressOption"+PressOption);
-            EnterWebsite.sendKeys(URL);
-            Reporter.log("Entered Website"+EnterWebsite);
-            PhoneNumber.sendKeys(PhoneNo);
-            Reporter.log("Enter PhoneNumber Successfully"+PhoneNumber);
-            Description.sendKeys(Des);
-            Reporter.log("Enter Description"+Description);
-            Emailtextbox.sendKeys(Email);
-            Reporter.log("Enter email successfully"+Emailtextbox);
-            Industry.click();
-            Reporter.log("clicked on Industry"+Industry);
-            Banking.click();
-            Reporter.log("Clicked on Banking"+Banking);
-            Employee.sendKeys(number);
-            Reporter.log("Enter Employee"+Employee);
-            SearchBillingAddress(BillAdress);
-            Savebutton.click();
-            Reporter.log("Done Creating Account");
+        }catch (Exception e){
+            Reporter.log("TypeDropDown Throws Exception"+ e);
+        }
+        waitUntilElementDisplayed(PressOption);
+        PressOption.click();
+        Reporter.log("Selected PressOption"+PressOption);
+        EnterWebsite.sendKeys(URL);
+        Reporter.log("Entered Website"+EnterWebsite);
+        PhoneNumber.sendKeys(PhoneNo);
+        Reporter.log("Enter PhoneNumber Successfully"+PhoneNumber);
+        Description.sendKeys(Des);
+        Reporter.log("Enter Description"+Description);
+        Emailtextbox.sendKeys(Email);
+        Reporter.log("Enter email successfully"+Emailtextbox);
+        Industry.click();
+        Reporter.log("clicked on Industry"+Industry);
+        Banking.click();
+        Reporter.log("Clicked on Banking"+Banking);
+        Employee.sendKeys(number);
+        Reporter.log("Enter Employee"+Employee);
+        SearchBillingAddress(BillAdress);
+        Savebutton.click();
+        waitUntilElementClickable(AccountDropdown);
+        waitForSeconds(3);
+        Reporter.log("Done Creating Account");
         return this;
     }
 
 
 
     public AccountPage VerfiyUserSaveAndNew(String AccName, String URL, String phno, String des, String email, String employee, String Bill)  {
-        System.out.println("Account Dropdown---->" + AccountDropdown.isDisplayed());
         waitUntilElementDisplayed(AccountDropdown);
         AccountDropdown.sendKeys(Keys.ENTER);
-        waitUntilElementDisplayed(AccountsText);
-        waitUntilElementDisplayed(NewButton);
-        NewButton.sendKeys(Keys.ENTER);
-        NewButton.sendKeys(Keys.ENTER);
+        waitForSeconds(2);
+        Actions action= new Actions(driver);
+        WebElement button =driver.findElement(By.xpath("//a//div[@title='New']"));
+        action.moveToElement(button).perform();
+        button.sendKeys(Keys.ENTER);
+        button.click();
+//        SaveNewButton.sendKeys(Keys.ENTER);
         waitUntilElementDisplayed(NewAccountPage);
+        waitUntilElementDisplayed(AccountName);
         AccountName.sendKeys(AccName);
         Reporter.log("Entered AccountName"+AccountName);
         try{
@@ -271,8 +280,17 @@ public class AccountPage extends BasePage {
         String actualEmployeeValue = Employee.getAttribute("value");
         Assert.assertEquals(actualEmployeeValue, expectedEmployeeValue, "Employee field was not updated successfully.");
         Reporter.log("User can edit");
-        waitUntilElementDisplayed(DetailsButton);
-        DetailsButton.click();
+
+        WebElement viewAllEmployee;
+        System.out.println("DetailsButtonCount"+DetailsButtonList.size());
+        if (DetailsButtonList.size() >= 2) {
+            // Use the second element if there are two
+            viewAllEmployee = DetailsButtonList.get(1);
+        } else {
+            // Use the first element if there's only one
+            viewAllEmployee = DetailsButtonList.get(0);
+        }
+        viewAllEmployee.click();
         return this;
 
     }
@@ -294,12 +312,29 @@ public class AccountPage extends BasePage {
 
     public AccountPage DeleteAccountCreated() {
         waitForSeconds(2);
-        waitUntilElementDisplayed(DeleteCreatedAccount);
-        DeleteCreatedAccount.sendKeys(Keys.ENTER);
+        WebElement viewDeleteAccount;
+        System.out.println("DeleteButtonCount"+DeleteCreatedAccount.size());
+        if (DeleteCreatedAccount.size() >= 1) {
+            // Use the second element if there are two
+            viewDeleteAccount = DeleteCreatedAccount.get(1);
+        } else {
+            viewDeleteAccount = DeleteCreatedAccount.get(0);
+        }
+        viewDeleteAccount.click();
         DeletePopup.click();
         if(ClosePopup.isDisplayed()){
             ClosePopup.click();
         }
         return this;
     }
-    }
+//    private int retrycount=0;
+//    private static final int maxcount=3;
+//    @Override
+//    public boolean retry(ITestResult iTestResult) {
+//        if (retrycount<maxcount){
+//            retrycount++;
+//            return  true;
+//        }
+//        return false;
+//    }
+}

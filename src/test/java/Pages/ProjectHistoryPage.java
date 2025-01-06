@@ -18,7 +18,7 @@ public class ProjectHistoryPage extends BasePage{
     private WebElement AllInvoiceID;
     @FindBy(xpath = "//*[@role='tab' and @id='relatedListsTab__item']")
     private WebElement RelatedLink;
-    @FindBy(xpath = "//slot[contains(text(),'InvItem-00004935')]")
+    @FindBy(xpath = "//slot[contains(text(),'InvItem-000')]")
     private WebElement InvItemsID;
     @FindBy(xpath = "//*[@class='windowViewMode-normal oneContent active lafPageHost']//*[@name='Edit']")
     private WebElement EditOption;

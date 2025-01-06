@@ -19,7 +19,7 @@ public class AccountTests extends BaseTest {
         super.accountPage.AccountCreationPage(AccName,URL,PhoneNo,Des,Email,number,BillAdress);
     }
 
-    @Test(priority = 2,description = "(ZT_001)creating Account Entering Valid Data and Clicking On Save&New",dataProvider = "AllDetails",dataProviderClass = AccountPage.class)
+    @Test(priority = 2, description = "(ZT_001)creating Account Entering Valid Data and Clicking On Save&New",dataProvider = "AllDetails",dataProviderClass = AccountPage.class)
     public void SaveAndNewAccountCreation(String AccName,String URL,String PhoneNo,String Des,String Email,String number,String BillAdress)  {
         Log.info("Initializing test");
         super.accountPage.VerfiyUserSaveAndNew(AccName,URL,PhoneNo,Des,Email,number,BillAdress);
@@ -35,7 +35,7 @@ public class AccountTests extends BaseTest {
     @Test(priority = 4,description = "(ZT_002)Creating Account Without Mandatory Fields and Save&new",dataProvider = "WithoutMandatoryData",dataProviderClass = AccountPage.class)
     public void SaveAndNewWOMandatory(String URL, String phno, String des, String email, String employee, String Bill) {
         Log.info("Initializing test");
-       super.accountPage.VerfiyUserSaveAndNewWOmandatory(URL,phno,des,email,employee,Bill);
+        super.accountPage.VerfiyUserSaveAndNewWOmandatory(URL,phno,des,email,employee,Bill);
         Assert.assertEquals(Popup.getText(), "We hit a snag.", "Failed to Assert the Error Message");
     }
 

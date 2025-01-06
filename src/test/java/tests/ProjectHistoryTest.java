@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 
 public class ProjectHistoryTest extends BaseTest {
+
     @Test(priority = 1, description = "verifying that updates are displayed in project history")
     public void UpdateInvoice() {
         ProjectHistoryPage ProjectPage = new ProjectHistoryPage(driver);

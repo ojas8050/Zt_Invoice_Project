@@ -5,123 +5,105 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import static Pages.OpportunityPage.*;
 
+import Pages.OpportunityPage;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import static Pages.OpportunityPage.*;
+
 public class OpportunityTests extends BaseTest {
 
-    @Test(description = "Verify that a user can create an Opportunity record by entering all details.", priority = 1)
-    public void CreateNewOpportunityWithAllDetails(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.CreateRecordByAllDetails("Zomato","10m","June");
+    @Test(priority = 1,description = "Verify that a user can create an Opportunity record by entering all details.", dataProvider = "OpportunityPageDetails",dataProviderClass = OpportunityPage.class)
+    public void CreateNewOpportunityWithAllDetails(String OppName,String Amount,String MonthName,String CloseDate,String DescriptionText,String PONumberText,
+                                                   String HSNTextfield, String NextStepText, String NightShiftExpense, String PSTTimeShift, String  UScallTextField, String PresentCycleExpense, String BudgetConsumed, String  CompanyName,
+                                                   String GSTTextfield, String PANNoText, String  EmailText, String AddressLineone, String  AddressLineTwo, String PhoneNoText, String AccountHolderName, String BankNameText, String SwiftCodeText, String AccountNumberText, String BankAddressText, String  GSTLUTARNText){
+        super.opportunityPage.CreateRecordByAllDetails(OppName,Amount,MonthName,CloseDate,DescriptionText,PONumberText,
+                HSNTextfield,NextStepText, NightShiftExpense,PSTTimeShift,UScallTextField,PresentCycleExpense,BudgetConsumed,CompanyName,GSTTextfield,
+                PANNoText, EmailText,AddressLineone,AddressLineTwo,PhoneNoText,AccountHolderName,BankNameText,SwiftCodeText,AccountNumberText,BankAddressText,GSTLUTARNText);
     }
 
-    @Test(description = "Verify User is able to create Opportunity record in Opportunity by entering only mandatory details",priority = 2)
-    public void CreateNewOpportunityWithMandatoryDetails(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.CreateRecordByMandatoryDetails("Swiggy","10m","July");
+    @Test(priority = 2,description = "Verify User is able to create Opportunity record in Opportunity by entering only mandatory details",dataProvider = "OpportunityMandatoryDetails",dataProviderClass = OpportunityPage.class)
+    public void CreateNewOpportunityWithMandatoryDetails(String OppName,String Amount,String MonthName, String CloseDate,String PONumberText,String HSNTextField, String NightShiftExpense,String PSTTimeShift, String USCallText ){
+        super.opportunityPage.CreateRecordByMandatoryDetails(OppName,Amount,MonthName,CloseDate,PONumberText,HSNTextField,NightShiftExpense,PSTTimeShift,USCallText);
     }
 
-    @Test(description = "Verify that a user can edit an Opportunity record in Salesforce once after opportunity is created.",priority = 3)
-    public void EditOpportunityWithDetails(){
-        String nightShiftExpense = "23";
-        String pstShiftExpense = "25";
-        String usCallExpense = "25";
-        String MobileNumber = "233445533";
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.EditRecordByDetails(nightShiftExpense,pstShiftExpense,usCallExpense,MobileNumber);
-        Assert.assertEquals(NightShiftExpenseFromDetails.getText(),"$" + nightShiftExpense + ".00");
-        Assert.assertEquals(PST_ShiftExpenseFromDetails.getText(),"$" + pstShiftExpense + ".00");
-        Assert.assertEquals(US_CallExpenseFromDetails.getText(),"$" + usCallExpense + ".00");
+    @Test(priority = 3,description = "Verify that a user can edit an Opportunity record in Salesforce once after opportunity is created.",dataProvider = "GetEditOppName",dataProviderClass = OpportunityPage.class)
+    public void EditOpportunityWithDetails(String OppName,String SetNightShiftPrice, String SetPSTShiftPrice, String SetUS_CallPrice, String SetMobileNo){
+        super.opportunityPage.EditRecordByDetails(OppName,SetNightShiftPrice,SetPSTShiftPrice,SetUS_CallPrice,SetMobileNo);
+        Assert.assertEquals(NightShiftExpenseFromDetails.getText(),"$" + SetNightShiftPrice + ".00");
+        Assert.assertEquals(PST_ShiftExpenseFromDetails.getText(),"$" + SetPSTShiftPrice + ".00");
+        Assert.assertEquals(US_CallExpenseFromDetails.getText(),"$" + SetUS_CallPrice + ".00");
     }
 
-    @Test(description = "Update Opportunity record only for mandatory fields",priority = 4)
-    public void EditOpportunityWithMandatoryDetails(){
-        String SetExpenseForNightShift="12";
-        String SetExpenseForPST_Shift="25";
-        String SetExpenseForUS_CallShift="31";
-        String SetHSN_SAC_Number="890989";
-        String SetPO_Number="56745612";
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.EditRecordByMandatoryDetails("Zomato","10m",SetExpenseForNightShift,SetExpenseForPST_Shift,SetExpenseForUS_CallShift,SetPO_Number,SetHSN_SAC_Number);
-        Assert.assertEquals(NightShiftExpenseFromDetails.getText(),"$" + SetExpenseForNightShift + ".00");
-        Assert.assertEquals(PST_ShiftExpenseFromDetails.getText(),"$" + SetExpenseForPST_Shift + ".00");
-        Assert.assertEquals(US_CallExpenseFromDetails.getText(),"$" + SetExpenseForUS_CallShift + ".00");
+    @Test(priority = 4,description = "Update Opportunity record only for mandatory fields",dataProvider = "GetEditRecordByMdetails",dataProviderClass = OpportunityPage.class)
+    public void EditOpportunityWithMandatoryDetails(String OppName,String Amount,String CloseDate,String NightShift,String PST_Shift,String US_Call,String PO_Num,String HSN_SAC){
+        super.opportunityPage.EditRecordByMandatoryDetails(OppName,Amount,CloseDate,NightShift,PST_Shift,US_Call,PO_Num,HSN_SAC);
+        Assert.assertEquals(NightShiftExpenseFromDetails.getText(),"$" + NightShift + ".00");
+        Assert.assertEquals(PST_ShiftExpenseFromDetails.getText(),"$" + PST_Shift + ".00");
+        Assert.assertEquals(US_CallExpenseFromDetails.getText(),"$" + US_Call + ".00");
     }
 
-    @Test(description = "View the Employees not added to the opportunity",priority = 5)
-    public void EmployeePresentInOpportunity(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.EmployeesPresentToOpp();
+    @Test(priority = 6,description = "Set Expenses for Night Shift",dataProvider = "GetOppName",dataProviderClass = OpportunityPage.class)
+    public void SetExpenseForNightShiftFromOpportunity(String Oppname,String SetExpenseNightShift){
+        super.opportunityPage.SetExpenseNightShift(Oppname,SetExpenseNightShift);
     }
 
-    @Test(description = "Set Expenses for Night Shift",priority = 6)
-    public void SetExpenseForNightShiftFromOpportunity(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.SetExpenseNightShift("2k");
+    @Test(priority = 7,description = "Set Expenses for PST shift.",dataProvider = "GetOppName",dataProviderClass = OpportunityPage.class)
+    public void SetExpenseForPSTShiftFromOpportunity(String Oppname,String SetExpensePST){
+        super.opportunityPage.SetExpensePSTShift(Oppname,SetExpensePST);
     }
 
-    @Test(description = "Set Expenses for PST shift.",priority = 7)
-    public void SetExpenseForPSTShiftFromOpportunity(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.SetExpensePSTShift("2k");
+    @Test(priority = 8,description = "Set Expenses for US call",dataProvider = "GetOppName",dataProviderClass = OpportunityPage.class)
+    public void SetExpenseForUSCallFromOpportunity(String Oppname, String  SetExpenseUSCall){
+        opportunityPage.SetExpenseUSCall(Oppname,SetExpenseUSCall);
     }
 
-    @Test(description = "Set Expenses for US call",priority = 8)
-    public void SetExpenseForUSCallFromOpportunity(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.SetExpenseUSCall("2k");
+    @Test(priority = 9,description = "Add Employees in opportunity record",dataProvider = "AllOppDetails",dataProviderClass = OpportunityPage.class)
+    public void AddEmployeesToTheOpportunity(String Oppname){
+        super.opportunityPage.AddEmpToOpp(Oppname);
     }
 
-    @Test(description = "Add Employees in opportunity record",priority = 9)
-    public void AddEmployeesToTheOpportunity(){
-        OpportunityPage opportunityPage=new OpportunityPage(driver);
-        opportunityPage.AddEmpToOpp();
+    @Test(priority = 10, description = "View the Present Cycle Expenses field in opportunity",dataProvider = "AllOppDetails",dataProviderClass = OpportunityPage.class)
+    public void ViewPresentCycleExpense(String Oppname){
+        super.opportunityPage.VerifyThePresentCycleExpenseIsPresent(Oppname);
     }
 
-   @Test(description = "View the Present Cycle Expenses field in opportunity",priority = 10)
-    public void ViewPresentCycleExpense(){
-       OpportunityPage opportunityPage=new OpportunityPage(driver);
-       opportunityPage.VerifyThePresentCycleExpenseIsPresent();
-   }
-
-   @Test(description = "View the Budget Remaining from the Total Project Cost.",priority = 11)
-    public void ViewBudgetRemaining(){
-       OpportunityPage opportunityPage=new OpportunityPage(driver);
-       opportunityPage.ViewBudgetRemaining();
-   }
+    @Test(priority = 11,description = "View the Budget Remaining from the Total Project Cost.",dataProvider = "AllOppDetails",dataProviderClass = OpportunityPage.class)
+    public void ViewBudgetRemaining(String Oppname){
+        opportunityPage.ViewBudgetRemaining(Oppname);
+    }
 
     @Test(description = "Verify that Salary for working days is calculated properly upon saving employee allowance data",priority = 12)
     public void Salaryforworkingdaysiscalculatedproperly() {
-        OpportunityPage opportunityPage = new OpportunityPage(driver);
-        opportunityPage.VerifythatSalaryforworkingdaysiscalculatedproperly();
+        super.opportunityPage.VerifyThatSalaryForWorkingDaysIsCalculatedProperly();
     }
 
-    @Test(description = "Generate invoice by clicking on Generate Invoice button ",priority = 13)
-    public void GenratingInvoice() {
-        OpportunityPage opportunityPage = new OpportunityPage(driver);
-        opportunityPage.TOgenerateInvoice();
+    @Test(priority = 13,description = "Generate invoice by clicking on Generate Invoice button ")
+    public void GeneratingInvoice() {
+        super.opportunityPage.ToGenerateInvoice();
     }
 
     @Test(description = "Generate Multiple Invoice for one Opportunity",priority = 14)
-    public void GenrateMultiplrInvoice() {
-        OpportunityPage opportunityPage = new OpportunityPage(driver);
-        opportunityPage.TOgeneratemultipleInvoice();
+    public void GenerateMultipleInvoice() {
+        super.opportunityPage.ToGenerateMultipleInvoice();
     }
 
-    @Test(description = "Edit Taxtion field ", priority = 15)
+    @Test(priority = 15,description = "Edit Taxtion field ")
     public void EditTaxationFieldTest() {
-        OpportunityPage opportunityPage = new OpportunityPage(driver);
-        opportunityPage.EditTaxationField();
+        super.opportunityPage.EditTaxationField();
     }
 
-    @Test(description = "Edit WithinStateoption", priority = 16)
+    @Test(priority = 16,description = "Edit WithinStateoption")
     public void EditWithinStateoption() {
-        OpportunityPage opportunityPage = new OpportunityPage(driver);
-        opportunityPage.EditWithinStateField();
+        super.opportunityPage.EditWithinStateField();
     }
 
-    @Test(description = "Edit Domesticoption", priority = 17)
+    @Test(priority = 17,description = "Edit Domesticoption")
     public void EditDomesticoption() {
-        OpportunityPage opportunityPage = new OpportunityPage(driver);
-        opportunityPage.EditDomesticField();
+        super.opportunityPage.EditDomesticField();
+    }
+    @Test(priority = 18,description = "View the Employees not added to the opportunity")
+    public void EmployeePresentInOpportunity(){
+        super.opportunityPage.EmployeesPresentToOpp();
     }
 
 }
