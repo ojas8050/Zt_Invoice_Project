@@ -1,10 +1,9 @@
 package Pages;
 
 import Utils.Log;
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,14 +11,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-public abstract class BasePage {
-    protected WebDriver driver;
-    protected WebDriverWait wait;
+public class BasePage {
+    public WebDriver driver;
+    public WebDriverWait wait;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Default timeout
         PageFactory.initElements(driver, this);
+    }
+
+    public BasePage() {
     }
 
     protected void waitUntilElementVisible(WebElement element) {
@@ -59,5 +61,16 @@ public abstract class BasePage {
         }
     }
 
+    protected void moveToElement(WebElement element) {
+        try {
+            // Scroll the element into view at the top
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element).perform();
+            Log.info("Moved to the element");
+        } catch (Exception e) {
+            Log.warn("Failed to move to the element: " + e.getMessage());
+        }
+    }
 
 }
